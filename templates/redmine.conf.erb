@@ -1,0 +1,30 @@
+# This file is being maintained by Puppet.
+# DO NOT EDIT
+
+PassengerUseGlobalQueue On
+
+# Recycle master processes after they service 1000 requests
+PassengerMaxRequests 1000
+
+# Stop processes if they sit idle for 10 minutes
+PassengerPoolIdleTime 600
+
+PassengerStatThrottleRate 120
+RackAutoDetect On
+RailsAutoDetect On
+
+<VirtualHost *:80>
+    ServerName <%= @server_name %>
+
+    # This header needs to be set if using a loadbalancer or proxy
+    RequestHeader unset X-Forwarded-For
+
+    RackAutoDetect On
+    DocumentRoot <%= @docroot %>/public/
+    <Directory <%= @docroot %>/public/>
+        Options None
+        AllowOverride None
+        Order Allow,Deny
+        Allow from All
+    </Directory>
+</VirtualHost>
